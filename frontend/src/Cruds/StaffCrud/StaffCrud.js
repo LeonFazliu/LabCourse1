@@ -1,10 +1,10 @@
 import React ,{useState,useEffect}from 'react'
 import {Link}  from "react-router-dom"
-import "./Home.css";
+import "./StaffCrud.css";
 import {toast} from "react-toastify";
 import axios from "axios";
 
-export const Home = () => {
+export const StaffCrud = () => {
     const[data,setData]=useState([]);
 
     const loadData= async()=>{
@@ -73,4 +73,4 @@ export const Home = () => {
   )
 }
 
-export default Home;
+export default StaffCrud;
