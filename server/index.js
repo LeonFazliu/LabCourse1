@@ -81,6 +81,140 @@ app.put("/api/update/:id", (req, res) => {
     });
 });
 
+app.get("/api/hotels", (req, res) => {
+    const sqlGetHotels = "SELECT * FROM hotels_db";
+    db.query(sqlGetHotels, (error, result) => {
+        if (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+        res.json(result);
+    });
+});
+
+app.post("/api/hotels", (req, res) => {
+    const { hotelname, hotelcity } = req.body;
+    const sqlInsertHotel = "INSERT INTO hotels_db (hotelname, hotelcity) VALUES (?, ?)";
+    db.query(sqlInsertHotel, [hotelname, hotelcity], (error, result) => {
+        if (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+        res.sendStatus(200);
+    });
+});
+
+app.delete("/api/hotels/:hotel_id", (req, res) => {
+    const { hotel_id } = req.params;
+    const sqlRemoveHotel = "DELETE FROM hotels_db WHERE hotel_id = ?";
+    db.query(sqlRemoveHotel, hotel_id, (error, result) => {
+        if (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+        res.sendStatus(200);
+    });
+});
+
+app.get("/api/hotels/:hotel_id", (req, res) => {
+    const { hotel_id } = req.params;
+    const sqlGetHotelById = "SELECT * FROM hotels_db WHERE hotel_id = ?";
+    db.query(sqlGetHotelById, hotel_id, (error, result) => {
+        if (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+        res.json(result);
+    });
+});
+
+app.put("/api/hotels/:hotel_id", (req, res) => {
+    const { hotel_id } = req.params;
+    const { hotelname, hotelcity } = req.body;
+    const sqlUpdateHotel = "UPDATE hotels_db SET hotelname = ?, hotelcity = ? WHERE hotel_id = ?";
+    db.query(sqlUpdateHotel, [hotelname, hotelcity, hotel_id], (error, result) => {
+        if (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+        res.sendStatus(200);
+    });
+});
+
+app.get("/api/customers", (req, res) => {
+    const sqlGetCustomers = "SELECT * FROM costumers_db";
+    db.query(sqlGetCustomers, (error, result) => {
+        if (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+        res.json(result);
+    });
+});
+
+
+app.post("/api/customers", (req, res) => {
+    const { CostumerName, CostumersPhone, CostumersEmail } = req.body;
+    const sqlInsertCustomer = "INSERT INTO costumers_db (CostumerName, CostumersPhone, CostumersEmail) VALUES (?, ?, ?)";
+    db.query(sqlInsertCustomer, [CostumerName, CostumersPhone, CostumersEmail], (error, result) => {
+        if (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+        res.sendStatus(200);
+    });
+});
+
+
+app.delete("/api/customers/:Costumer_id", (req, res) => {
+    const { Costumer_id } = req.params;
+    const sqlDeleteCustomer = "DELETE FROM costumers_db WHERE Costumer_id = ?";
+    db.query(sqlDeleteCustomer, Costumer_id, (error, result) => {
+        if (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+        res.sendStatus(200);
+    });
+});
+
+
+app.get("/api/customers/:Costumer_id", (req, res) => {
+    const { Costumer_id } = req.params;
+    const sqlGetCustomerById = "SELECT * FROM costumers_db WHERE Costumer_id = ?";
+    db.query(sqlGetCustomerById, Costumer_id, (error, result) => {
+        if (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+        res.json(result);
+    });
+});
+
+
+app.put("/api/customers/:Costumer_id", (req, res) => {
+    const { Costumer_id } = req.params;
+    const { CostumerName, CostumersPhone, CostumersEmail } = req.body;
+    const sqlUpdateCustomer = "UPDATE costumers_db SET CostumerName = ?, CostumersPhone = ?, CostumersEmail = ? WHERE Costumer_id = ?";
+    db.query(sqlUpdateCustomer, [CostumerName, CostumersPhone, CostumersEmail, Costumer_id], (error, result) => {
+        if (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+        res.sendStatus(200);
+    });
+});
+
 app.listen(5000, () => {
     console.log("Server running on port 5000");
 });

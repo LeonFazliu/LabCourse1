@@ -1,12 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import StaffCrud from './Cruds/StaffCrud/StaffCrud'; 
-import  AddEdit  from './Cruds/StaffCrud/AddEdit';
-import View from './Cruds/StaffCrud/View';
-
+import AddEditStaff from './Cruds/StaffCrud/AddEditStaff';
+import ViewStaff from './Cruds/StaffCrud/ViewStaff';
+import HotelCrud from './Cruds/HotelCrud/HotelCrud'; 
+import AddEditHotel from './Cruds/HotelCrud/AddEditHotel';
+import ViewHotel from './Cruds/HotelCrud/ViewHotel';
+import CustomerCrud from './Cruds/CustomerCrud/CustomerCrud';  
+import AddEditCustomer from './Cruds/CustomerCrud/AddEditCustomer';  
+import ViewCustomer from './Cruds/CustomerCrud/ViewCustomer'; 
 
 function App() {
   return (
@@ -14,16 +18,24 @@ function App() {
       <div className="App">
         <ToastContainer position='top-center'/>
         <Routes>
-          <Route exact path="/" element={<StaffCrud />} />
-          <Route path="/addStaff" element={<AddEdit />} />
-          <Route path="/update/:id" element={<AddEdit />} />
-          <Route path="/view/:id" element={<View />} />
+          <Route exact path="/staff" element={<StaffCrud />} />
+          <Route path="/addstaff" element={<AddEditStaff />} />
+          <Route path="/update/:id" element={<AddEditStaff />} />
+          <Route path="/view/:id" element={<ViewStaff />} />
+
+          <Route exact path="/hotels" element={<HotelCrud />} />
+          <Route path="/hotels/add" element={<AddEditHotel />} />
+          <Route path="/hotels/update/:id" element={<AddEditHotel />} />
+          <Route path="/hotels/view/:id" element={<ViewHotel />} />
+
+          <Route exact path="/customers" element={<CustomerCrud />} />
+          <Route path="/customers/add" element={<AddEditCustomer />} />
+          <Route path="/customers/update/:id" element={<AddEditCustomer />} />
+          <Route path="/customers/view/:id" element={<ViewCustomer />} />
         </Routes>
       </div>
     </Router>
   );
 }
-
-
 
 export default App;

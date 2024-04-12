@@ -29,10 +29,12 @@ export const StaffCrud = () => {
     
   return (
     <div style={{marginTop:"150px"}}>
+        <div className='addbutton'>
         <Link to="/addstaff">
         
         <button className='btn btn-contact'>Add Staff</button>
         </Link>
+        </div>
         <table className='styled-table'>
             <thead>
                 <tr>

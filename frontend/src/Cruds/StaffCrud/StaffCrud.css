@@ -54,3 +54,9 @@
     background-color: rgb(0, 234, 242);
     color: black;
 }
+.addbutton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+}

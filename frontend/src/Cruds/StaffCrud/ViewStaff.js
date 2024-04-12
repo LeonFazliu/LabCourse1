@@ -34,7 +34,7 @@ export const View = () => {
                 <span>{user.position}</span>
                 <br/>
                 <br/>
-                <Link to="/">
+                <Link to="/staff">
                 <div className='btn btn-edit'>
                     Go Back
                 </div>
