@@ -53,7 +53,7 @@ const AddEdit = () => {
         toast.success("Staff Updated Successfully");
        
     }
-    setTimeout(()=>navigate("/"),500);
+    setTimeout(()=>navigate("/staff"),500);
 }
   }
   
