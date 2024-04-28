@@ -160,9 +160,9 @@ app.get("/api/customers", (req, res) => {
 
 
 app.post("/api/customers", (req, res) => {
-    const { CostumerName, CostumersPhone, CostumersEmail } = req.body;
-    const sqlInsertCustomer = "INSERT INTO costumers_db (CostumerName, CostumersPhone, CostumersEmail) VALUES (?, ?, ?)";
-    db.query(sqlInsertCustomer, [CostumerName, CostumersPhone, CostumersEmail], (error, result) => {
+    const { CostumerName, CostumersPhone, CostumersEmail,CostumersGender } = req.body;
+    const sqlInsertCustomer = "INSERT INTO costumers_db (CostumerName, CostumersPhone, CostumersEmail, CostumersGender) VALUES (?,?,?,?)";
+    db.query(sqlInsertCustomer, [CostumerName, CostumersPhone, CostumersEmail, CostumersGender], (error, result) => {
         if (error) {
             console.error(error);
             res.status(500).json({ error: 'Internal server error' });
@@ -203,9 +203,9 @@ app.get("/api/customers/:Costumer_id", (req, res) => {
 
 app.put("/api/customers/:Costumer_id", (req, res) => {
     const { Costumer_id } = req.params;
-    const { CostumerName, CostumersPhone, CostumersEmail } = req.body;
-    const sqlUpdateCustomer = "UPDATE costumers_db SET CostumerName = ?, CostumersPhone = ?, CostumersEmail = ? WHERE Costumer_id = ?";
-    db.query(sqlUpdateCustomer, [CostumerName, CostumersPhone, CostumersEmail, Costumer_id], (error, result) => {
+    const { CostumerName, CostumersPhone, CostumersEmail, CostumersGender } = req.body;
+    const sqlUpdateCustomer = "UPDATE costumers_db SET CostumerName = ?, CostumersPhone = ?, CostumersEmail = ?, CostumersGender = ? WHERE Costumer_id = ?";
+    db.query(sqlUpdateCustomer, [CostumerName, CostumersPhone, CostumersEmail, CostumersGender, Costumer_id], (error, result) => {
         if (error) {
             console.error(error);
             res.status(500).json({ error: 'Internal server error' });
