@@ -36,6 +36,10 @@ export const ViewCustomer = () => {
                     <span>{customer.CostumersEmail}</span>
                     <br />
                     <br />
+                    <strong>Gender:</strong>
+                    <span>{customer.CostumersGender}</span>
+                    <br />
+                    <br />
                     <Link to="/customers">
                         <div className='btn btn-edit'>
                             Go Back

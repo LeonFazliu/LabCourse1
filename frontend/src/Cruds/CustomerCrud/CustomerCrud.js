@@ -49,6 +49,7 @@ export const CustomerCrud = () => {
                         <th style={{ textAlign: "center" }}>Customer Name</th>
                         <th style={{ textAlign: "center" }}>Phone</th>
                         <th style={{ textAlign: "center" }}>Email</th>
+                        <th style={{ textAlign: "center" }}>Gender</th> 
                         <th style={{ textAlign: "center" }}>Action</th>
                     </tr>
                 </thead>
@@ -59,6 +60,7 @@ export const CustomerCrud = () => {
                             <td>{customer.CostumerName}</td>
                             <td>{customer.CostumersPhone}</td>
                             <td>{customer.CostumersEmail}</td>
+                            <td>{customer.CostumersGender}</td> 
                             <td>
                                 <Link to={`/customers/update/${customer.Costumer_id}`}>
                                     <button className='btn btn-edit'>Edit</button>
