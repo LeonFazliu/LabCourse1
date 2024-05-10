@@ -14,6 +14,7 @@ const AddEditHotel = () => {
   const { hotelname, hotelcity } = state;
   const navigate = useNavigate(); 
   const { id } = useParams();
+  const [cities, setCities] = useState(["Prishtinë", "Mitrovicë", "Prizren", "Gjilan"]); // List of cities
   
   useEffect(() => {
     if (id) {
@@ -78,14 +79,17 @@ const AddEditHotel = () => {
           onChange={handleInputChange}
         />
         <label htmlFor='hotelcity'>City</label>
-        <input
-          type='text'
+        <select
           id='hotelcity'
           name='hotelcity'
-          placeholder='City....'
           value={hotelcity || ""}
           onChange={handleInputChange}
-        />
+        >
+          <option value=''>Select City</option>
+          {cities.map(city => (
+            <option key={city} value={city}>{city}</option>
+          ))}
+        </select>
         <input type='submit' value={id ? "Update" : "Save"} />
         <Link to="/hotels">
           <input type="button" value="Go Back"/>
