@@ -37,7 +37,7 @@ export const HotelCrud = () => {
 
     return (
         <div style={{ marginTop: "150px" }}>
-            <div className='addbutton'>
+            <div className='addbutton'style={{marginLeft:"23.6rem"}} >
             <Link to="/hotels/add">
                
                 <button className='btn btn-contact'>Add Hotel</button>

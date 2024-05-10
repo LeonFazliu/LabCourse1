@@ -37,7 +37,7 @@ export const CustomerCrud = () => {
 
     return (
         <div style={{ marginTop: "150px" }}>
-            <div className='addbutton'>
+            <div className='addbutton'style={{marginLeft:"40.1rem"}} >
             <Link to="/customers/add">
                 <button className='btn btn-contact'>Add Customer</button>
             </Link>

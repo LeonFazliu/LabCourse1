@@ -29,7 +29,7 @@ export const StaffCrud = () => {
     
   return (
     <div style={{marginTop:"150px"}}>
-        <div className='addbutton'>
+        <div className='addbutton' style={{marginLeft:"34.8rem"}}>
         <Link to="/addstaff">
         
         <button className='btn btn-contact'>Add Staff</button>

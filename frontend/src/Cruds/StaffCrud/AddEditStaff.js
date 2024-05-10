@@ -10,7 +10,7 @@ const initialState = {
   position: ""
 };
 
-const positionOptions = ["CEO", "Director", "Janitor", "Manager", "Engineer"]; 
+const positionOptions = ["CEO", "Director", "Accountant", "Manager", "Engineer"]; 
 
 const AddEdit = () => {
   const [state, setState] = useState(initialState);

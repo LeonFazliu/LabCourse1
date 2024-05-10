@@ -7,7 +7,7 @@ export const Sidebar = () => {
     <div className='d-flex flex-column bg-dark text-white p-4 vh-100'>
         <h3>
             <i className='bi bi-bootstrap fs-5 me-2'></i>
-            <span>Cruds</span>
+            <span>CRUD's</span>
         </h3>
         <hr className='text-secondary mt-2'/>
         <ul className='nav nav-pills flex-column p-0 m-0'>
