@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, Link, useParams } from "react-router-dom"; // Correct import
+import { useNavigate, Link, useParams } from "react-router-dom";
 import axios from 'axios';
 import { toast } from "react-toastify";
-import "./AddEdit.css"
+import "./AddEdit.css";
 
 const initialState = {
   name: "",
   email: "",
   position: ""
 };
+
+const positionOptions = ["CEO", "Director", "Janitor", "Manager", "Engineer"]; 
 
 const AddEdit = () => {
   const [state, setState] = useState(initialState);
@@ -17,10 +19,11 @@ const AddEdit = () => {
   const { id } = useParams();
   
   useEffect(() => {
-    
+    if (id) {
       axios.get(`http://localhost:5000/api/get/${id}`)
         .then(resp => setState({ ...resp.data[0] }))
-    
+        .catch(err => console.error(err));
+    }
   }, [id]);
 
   const handleSubmit = (e) => {
@@ -28,36 +31,33 @@ const AddEdit = () => {
     if (!name || !email || !position) {
       toast.error("Please fill each input field");
     } else {
-        if(!id){
-            axios.post("http://localhost:5000/api/post",{
-           name,
-           email,
-           position,
+      if (!id) {
+        axios.post("http://localhost:5000/api/post", {
+          name,
+          email,
+          position,
         })
-        .then(()=>{
-            setState({name:"",email:"",position:""})
+          .then(() => {
+            setState(initialState);
+            toast.success("Staff Added Successfully");
+            navigate("/staff");
+          })
+          .catch((err) => toast.error(err.response.data));
+      } else {
+        axios.put(`http://localhost:5000/api/update/${id}`, {
+          name,
+          email,
+          position,
         })
-        .catch((err) => toast.error(err.response.data));
-        toast.success("Staff Added Successfully");
+          .then(() => {
+            setState(initialState);
+            toast.success("Staff Updated Successfully");
+            navigate("/staff");
+          })
+          .catch((err) => toast.error(err.response.data));
+      }
     }
-    else{
-            axios.put(`http://localhost:5000/api/update/${id}`,{
-           name,
-           email,
-           position,
-        })
-        .then(()=>{
-            setState({name:"",email:"",position:""})
-        })
-        .catch((err) => toast.error(err.response.data));
-        toast.success("Staff Updated Successfully");
-       
-    }
-    setTimeout(()=>navigate("/staff"),500);
-}
-  }
-  
-  
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -81,7 +81,7 @@ const AddEdit = () => {
           id='name'
           name='name'
           placeholder='Your Name....'
-          value={name || ""}
+          value={name}
           onChange={handleInputChange}
         />
         <label htmlFor='email'>E-Mail</label>
@@ -90,21 +90,24 @@ const AddEdit = () => {
           id='email'
           name='email'
           placeholder='Your E-mail....'
-          value={email || ""}
+          value={email}
           onChange={handleInputChange}
         />
         <label htmlFor='position'>Position</label>
-        <input
-          type='text'
+        <select
           id='position'
           name='position'
-          placeholder='Your Position....'
-          value={position || ""}
+          value={position}
           onChange={handleInputChange}
-        />
+        >
+          <option value=''>Select Position</option>
+          {positionOptions.map((option) => (
+            <option key={option} value={option}>{option}</option>
+          ))}
+        </select>
         <input type='submit' value={id ? "Update" : "Save"} />
         <Link to="/staff">
-        <input type="button" value="Go Back"/>
+          <input type="button" value="Go Back"/>
         </Link>
       </form>
     </div>
