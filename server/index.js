@@ -215,6 +215,72 @@ app.put("/api/customers/:Costumer_id", (req, res) => {
     });
 });
 
+app.get("/api/finances", (req, res) => {
+    const sqlGetFinances = "SELECT * FROM finances_db";
+    db.query(sqlGetFinances, (error, result) => {
+        if (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+        res.json(result);
+    });
+});
+
+app.post("/api/finances", (req, res) => {
+    const { staffname, salary, paymentdate } = req.body;
+    const sqlInsertFinance = "INSERT INTO finances_db (staffname, salary, paymentdate) VALUES (?, ?, ?)";
+    db.query(sqlInsertFinance, [staffname, salary, paymentdate], (error, result) => {
+        if (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+        res.sendStatus(200);
+    });
+});
+
+app.delete("/api/finances/:salaryid", (req, res) => {
+    const { salaryid } = req.params;
+    const sqlRemoveFinance = "DELETE FROM finances_db WHERE salaryid = ?";
+    db.query(sqlRemoveFinance, salaryid, (error, result) => {
+        if (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+        res.sendStatus(200);
+    });
+});
+
+app.get("/api/finances/:salaryid", (req, res) => {
+    const { salaryid } = req.params;
+    const sqlGetFinanceById = "SELECT * FROM finances_db WHERE salaryid = ?";
+    db.query(sqlGetFinanceById, salaryid, (error, result) => {
+        if (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+        res.json(result);
+    });
+});
+
+app.put("/api/finances/:salaryid", (req, res) => {
+    const { salaryid } = req.params;
+    const { staffname, salary, paymentdate } = req.body;
+    const sqlUpdateFinance = "UPDATE finances_db SET staffname = ?, salary = ?, paymentdate = ? WHERE salaryid = ?";
+    db.query(sqlUpdateFinance, [staffname, salary, paymentdate, salaryid], (error, result) => {
+        if (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+        res.sendStatus(200);
+    });
+});
+
+
 app.listen(5000, () => {
     console.log("Server running on port 5000");
 });

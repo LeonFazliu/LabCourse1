@@ -29,6 +29,12 @@ export const Sidebar = () => {
                     <span className='fs-5'>Customers</span>
                 </Link>
             </li>
+            <li className='nav-item p-1'>
+                <Link to="/finances" className='nav-link text-white'>
+                    <i className='bi me-2 fs-5'></i>
+                    <span className='fs-5'>Finances</span>
+                </Link>
+            </li>
         </ul>
     </div>
   )

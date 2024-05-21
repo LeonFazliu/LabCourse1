@@ -11,7 +11,10 @@ import AddEditHotel from './Cruds/HotelCrud/AddEditHotel';
 import ViewHotel from './Cruds/HotelCrud/ViewHotel';
 import CustomerCrud from './Cruds/CustomerCrud/CustomerCrud';  
 import AddEditCustomer from './Cruds/CustomerCrud/AddEditCustomer';  
-import ViewCustomer from './Cruds/CustomerCrud/ViewCustomer'; 
+import ViewCustomer from './Cruds/CustomerCrud/ViewCustomer';
+import FinancesCrud from './Cruds/FinancesCrud/FinancesCrud';
+import AddEditFinances from './Cruds/FinancesCrud/AddEditFinances';
+import ViewFinances from './Cruds/FinancesCrud/ViewFinances';
 import Sidebar from './Sidebar';
 
 function App() {
@@ -40,6 +43,11 @@ function App() {
                 <Route path="/customers/add" element={<AddEditCustomer />} />
                 <Route path="/customers/update/:id" element={<AddEditCustomer />} />
                 <Route path="/customers/view/:id" element={<ViewCustomer />} />
+
+                <Route exact path="/finances" element={<FinancesCrud />} />
+                <Route path="/finances/add" element={<AddEditFinances />} />
+                <Route path="/finances/update/:salaryid" element={<AddEditFinances />} />
+                <Route path="/finances/view/:salaryid" element={<ViewFinances />} />
               </Routes>
             </div>
           </div>
