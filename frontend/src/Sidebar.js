@@ -34,6 +34,14 @@ export const Sidebar = () => {
                     <i className='bi me-2 fs-5'></i>
                     <span className='fs-5'>Finances</span>
                 </Link>
+                
+            </li>
+            <li className='nav-item p-1'>
+                <Link to="/reservations" className='nav-link text-white'>
+                    <i className='bi me-2 fs-5'></i>
+                    <span className='fs-5'>Reservations</span>
+                </Link>
+                
             </li>
         </ul>
     </div>

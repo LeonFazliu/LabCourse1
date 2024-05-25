@@ -8,7 +8,7 @@ const db = mysql.createPool({
     host: "localhost",
     user: "root",
     password: "",
-    database: "labcourse1"
+    database: "labcourse"
 });
 
 app.use(cors());
@@ -228,9 +228,9 @@ app.get("/api/finances", (req, res) => {
 });
 
 app.post("/api/finances", (req, res) => {
-    const { staffname, salary, paymentdate } = req.body;
-    const sqlInsertFinance = "INSERT INTO finances_db (staffname, salary, paymentdate) VALUES (?, ?, ?)";
-    db.query(sqlInsertFinance, [staffname, salary, paymentdate], (error, result) => {
+    const {name, salary, paymentdate } = req.body;
+    const sqlInsertFinance = "INSERT INTO finances_db (name, salary, paymentdate) VALUES (?, ?, ?)";
+    db.query(sqlInsertFinance, [name, salary, paymentdate], (error, result) => {
         if (error) {
             console.error(error);
             res.status(500).json({ error: 'Internal server error' });
@@ -268,9 +268,9 @@ app.get("/api/finances/:salaryid", (req, res) => {
 
 app.put("/api/finances/:salaryid", (req, res) => {
     const { salaryid } = req.params;
-    const { staffname, salary, paymentdate } = req.body;
-    const sqlUpdateFinance = "UPDATE finances_db SET staffname = ?, salary = ?, paymentdate = ? WHERE salaryid = ?";
-    db.query(sqlUpdateFinance, [staffname, salary, paymentdate, salaryid], (error, result) => {
+    const { name, salary, paymentdate } = req.body;
+    const sqlUpdateFinance = "UPDATE finances_db SET name = ?, salary = ?, paymentdate = ? WHERE salaryid = ?";
+    db.query(sqlUpdateFinance, [name, salary, paymentdate, salaryid], (error, result) => {
         if (error) {
             console.error(error);
             res.status(500).json({ error: 'Internal server error' });
@@ -279,6 +279,75 @@ app.put("/api/finances/:salaryid", (req, res) => {
         res.sendStatus(200);
     });
 });
+
+
+app.get("/api/reservations", (req, res) => {
+    const sqlGetReservations = "SELECT * FROM reservation_db";
+    db.query(sqlGetReservations, (error, result) => {
+      if (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+        return;
+      }
+      res.json(result);
+    });
+  });
+  
+  app.post("/api/reservations", (req, res) => {
+    const { CostumerName, hotelname, checkindate, checkoutdate } = req.body;
+    const sqlInsertReservation = "INSERT INTO reservation_db (CostumerName, hotelname, checkindate, checkoutdate) VALUES (?, ?, ?, ?)";
+    db.query(sqlInsertReservation, [CostumerName, hotelname, checkindate, checkoutdate], (error, result) => {
+      if (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+        return;
+      }
+      res.sendStatus(200);
+    });
+  });
+  
+  app.delete("/api/reservations/:Reservation_id", (req, res) => {
+    const { Reservation_id } = req.params;
+    const sqlRemoveReservation = "DELETE FROM reservation_db WHERE Reservation_id = ?";
+    db.query(sqlRemoveReservation, Reservation_id, (error, result) => {
+      if (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+        return;
+      }
+      res.sendStatus(200);
+    });
+  });
+  
+  app.get("/api/reservations/:Reservation_id", (req, res) => {
+    const { Reservation_id } = req.params;
+    const sqlGetReservationById = "SELECT * FROM reservation_db WHERE Reservation_id = ?";
+    db.query(sqlGetReservationById, Reservation_id, (error, result) => {
+      if (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+        return;
+      }
+      res.json(result);
+    });
+  });
+  
+  app.put("/api/reservations/:Reservation_id", (req, res) => {
+    const { Reservation_id } = req.params;
+    const { CostumerName, hotelname, checkindate, checkoutdate } = req.body;
+    const sqlUpdateReservation = "UPDATE reservation_db SET CostumerName = ?, hotelname = ?, checkindate = ?, checkoutdate = ? WHERE Reservation_id = ?";
+    db.query(sqlUpdateReservation, [CostumerName, hotelname, checkindate, checkoutdate, Reservation_id], (error, result) => {
+      if (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+        return;
+      }
+      res.sendStatus(200);
+    });
+  });
+  
+
+
 
 
 app.listen(5000, () => {

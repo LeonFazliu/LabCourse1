@@ -5,18 +5,24 @@ import { toast } from "react-toastify";
 import "./AddEdit.css";
 
 const initialState = {
-  staffname: "",
+  name: "",
   salary: "",
   paymentdate: ""
 };
 
 const AddEditFinance = () => {
   const [state, setState] = useState(initialState);
-  const { staffname, salary, paymentdate } = state;
+  const { name, salary, paymentdate } = state;
+  const [staffNames, setStaffNames] = useState([]); // State to hold the list of staff names
   const navigate = useNavigate();
   const { salaryid } = useParams();
 
   useEffect(() => {
+    // Fetch the list of staff names from the staff_db
+    axios.get("http://localhost:5000/api/get")
+      .then(resp => setStaffNames(resp.data.map(staff => staff.name)))
+      .catch(error => console.error(error));
+
     if (salaryid) {
       axios.get(`http://localhost:5000/api/finances/${salaryid}`)
         .then(resp => setState({ ...resp.data[0] }))
@@ -26,12 +32,12 @@ const AddEditFinance = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!staffname || !salary || !paymentdate) {
+    if (!name || !salary || !paymentdate) {
       toast.error("Please fill each input field");
     } else {
       if (!salaryid) {
         axios.post("http://localhost:5000/api/finances", {
-          staffname,
+          name,
           salary,
           paymentdate
         })
@@ -43,7 +49,7 @@ const AddEditFinance = () => {
           .catch((err) => toast.error(err.response.data));
       } else {
         axios.put(`http://localhost:5000/api/finances/${salaryid}`, {
-          staffname,
+          name,
           salary,
           paymentdate
         })
@@ -72,15 +78,18 @@ const AddEditFinance = () => {
         }}
         onSubmit={handleSubmit}
       >
-        <label htmlFor='staffname'>Staff Name</label>
-        <input
-          type='text'
-          id='staffname'
-          name='staffname'
-          placeholder='Staff Name...'
-          value={staffname}
+        <label htmlFor='name'>Staff Name</label>
+        <select
+          id='name'
+          name='name'
+          value={name}
           onChange={handleInputChange}
-        />
+        >
+          <option value="">Select Staff Name</option>
+          {staffNames.map((staffName, index) => (
+            <option key={index} value={staffName}>{staffName}</option>
+          ))}
+        </select>
         <label htmlFor='salary'>Salary</label>
         <br></br>
         
@@ -94,10 +103,8 @@ const AddEditFinance = () => {
         />
         <br></br>
         
-        
         <label htmlFor='paymentdate'>Payment Date</label>
         <br></br>
-
         <input
           type='date'
           id='paymentdate'

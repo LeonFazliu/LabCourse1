@@ -25,7 +25,7 @@ export const ViewFinance = () => {
                     <br />
                     <br />
                     <strong>Staff Name:</strong>
-                    <span>{finance.staffname}</span>
+                    <span>{finance.name}</span>
                     <br />
                     <br />
                     <strong>Salary:</strong>
@@ -33,7 +33,7 @@ export const ViewFinance = () => {
                     <br />
                     <br />
                     <strong>Payment Date:</strong>
-                    <span>{finance.paymentdate}</span>
+                    <span>{finance.paymentdate ? new Date(finance.paymentdate).toLocaleDateString() : ''}</span>
                     <br />
                     <br />
                     <Link to="/finances">

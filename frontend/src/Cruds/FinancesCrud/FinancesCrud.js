@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
+import { format } from 'date-fns';
 import "./CrudDesign.css";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -37,7 +38,7 @@ export const FinancesCrud = () => {
 
     return (
         <div style={{ marginTop: "150px" }}>
-            <div className='addbutton' style={{ marginLeft: "20.8rem" }}>
+            <div className='addbutton' style={{ marginLeft: "29.0rem" }}>
                 <Link to="/finances/add">
                     <button className='btn btn-contact'>New payment</button>
                 </Link>
@@ -46,7 +47,7 @@ export const FinancesCrud = () => {
                 <thead>
                     <tr>
                         <th style={{ textAlign: "center" }}>No.</th>
-                        <th style={{ textAlign: "center" }}>Staff Name</th>
+                        <th style={{ textAlign: "center" }}>Name</th>
                         <th style={{ textAlign: "center" }}>Salary</th>
                         <th style={{ textAlign: "center" }}>Payment Date</th>
                         <th style={{ textAlign: "center" }}>Action</th>
@@ -56,9 +57,9 @@ export const FinancesCrud = () => {
                     {data.map((record, index) => (
                         <tr key={record.salaryid}>
                             <td>{index + 1}</td>
-                            <td>{record.staffname}</td>
+                            <td>{record.name}</td>
                             <td>{record.salary}</td>
-                            <td>{record.paymentdate}</td>
+                            <td>{format(new Date(record.paymentdate), 'MM/dd/yyyy')}</td>
                             <td>
                                 <Link to={`/finances/update/${record.salaryid}`}>
                                     <button className='btn btn-edit'>Edit</button>

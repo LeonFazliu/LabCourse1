@@ -15,6 +15,9 @@ import ViewCustomer from './Cruds/CustomerCrud/ViewCustomer';
 import FinancesCrud from './Cruds/FinancesCrud/FinancesCrud';
 import AddEditFinances from './Cruds/FinancesCrud/AddEditFinances';
 import ViewFinances from './Cruds/FinancesCrud/ViewFinances';
+import ReservationsCrud from './Cruds/ReservationCrud/ReservationsCrud';
+import AddEditReservation from './Cruds/ReservationCrud/AddEditReservation';
+import ViewReservations from './Cruds/ReservationCrud/ViewReservations';
 import Sidebar from './Sidebar';
 
 function App() {
@@ -48,6 +51,11 @@ function App() {
                 <Route path="/finances/add" element={<AddEditFinances />} />
                 <Route path="/finances/update/:salaryid" element={<AddEditFinances />} />
                 <Route path="/finances/view/:salaryid" element={<ViewFinances />} />
+
+                <Route exact path="/reservations" element={<ReservationsCrud />} />
+                <Route path="/reservations/add" element={<AddEditReservation />} />
+                <Route path="/reservations/update/:Reservation_id" element={<AddEditReservation />} />
+                <Route path="/reservations/view/:Reservation_id" element={<ViewReservations />} />
               </Routes>
             </div>
           </div>
