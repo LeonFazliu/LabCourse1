@@ -34,6 +34,10 @@ export const View = () => {
                 <span>{user.position}</span>
                 <br/>
                 <br/>
+                <strong>Password:</strong>
+                <span>{user.password}</span>
+                <br/>
+                <br/>
                 <Link to="/staff">
                 <div className='btn btn-edit'>
                     Go Back

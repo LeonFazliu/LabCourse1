@@ -29,9 +29,9 @@ app.get("/api/get", (req, res) => {
 });
 
 app.post("/api/post", (req, res) => {
-    const { name, email, position } = req.body;
-    const sqlInsert = "INSERT INTO staff_db (name, email, position) VALUES (?, ?, ?)";
-    db.query(sqlInsert, [name, email, position], (error, result) => {
+    const { name, email, position, password } = req.body;
+    const sqlInsert = "INSERT INTO staff_db (name, email, position, password) VALUES (?, ?, ?, ?)";
+    db.query(sqlInsert, [name, email, position, password], (error, result) => {
         if (error) {
             console.error(error);
             res.status(500).json({ error: 'Internal server error' });
@@ -69,9 +69,9 @@ app.get("/api/get/:id", (req, res) => {
 
 app.put("/api/update/:id", (req, res) => {
     const { id } = req.params;
-    const { name, email, position } = req.body;
-    const sqlUpdate = "UPDATE staff_db SET name = ?, email = ?, position = ? WHERE id = ?";
-    db.query(sqlUpdate, [name, email, position, id], (error, result) => {
+    const { name, email, position, password } = req.body;
+    const sqlUpdate = "UPDATE staff_db SET name = ?, email = ?, position = ?, password = ? WHERE id = ?";
+    db.query(sqlUpdate, [name, email, position, password, id], (error, result) => {
         if (error) {
             console.error(error);
             res.status(500).json({ error: 'Internal server error' });
@@ -80,6 +80,7 @@ app.put("/api/update/:id", (req, res) => {
         res.sendStatus(200);
     });
 });
+
 
 app.get("/api/hotels", (req, res) => {
     const sqlGetHotels = "SELECT * FROM hotels_db";

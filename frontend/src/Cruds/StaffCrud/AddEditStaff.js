@@ -7,14 +7,15 @@ import "./AddEdit.css";
 const initialState = {
   name: "",
   email: "",
-  position: ""
+  position: "",
+  password: "" // Added password field to initial state
 };
 
 const positionOptions = ["CEO", "Director", "Accountant", "Manager", "Engineer"]; 
 
 const AddEdit = () => {
   const [state, setState] = useState(initialState);
-  const { name, email, position } = state;
+  const { name, email, position, password } = state; // Destructuring state
   const navigate = useNavigate(); 
   const { id } = useParams();
   
@@ -28,7 +29,7 @@ const AddEdit = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name || !email || !position) {
+    if (!name || !email || !position || !password) { // Checking if password is not empty
       toast.error("Please fill each input field");
     } else {
       if (!id) {
@@ -36,6 +37,7 @@ const AddEdit = () => {
           name,
           email,
           position,
+          password // Including password in the request body
         })
           .then(() => {
             setState(initialState);
@@ -48,6 +50,7 @@ const AddEdit = () => {
           name,
           email,
           position,
+          password // Including password in the request body
         })
           .then(() => {
             setState(initialState);
@@ -91,6 +94,15 @@ const AddEdit = () => {
           name='email'
           placeholder='Your E-mail....'
           value={email}
+          onChange={handleInputChange}
+        />
+        <label htmlFor='password'>Password</label>
+        <input
+          type='text' // Keeping input type as text for password
+          id='password'
+          name='password'
+          placeholder='Your Password....'
+          value={password}
           onChange={handleInputChange}
         />
         <label htmlFor='position'>Position</label>
