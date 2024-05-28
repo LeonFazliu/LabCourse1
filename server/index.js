@@ -3,6 +3,8 @@ const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const mysql = require('mysql2');
+const jwt= require('jsonwebtoken');
+const cookieParser=require('cookie-parser');
 
 const db = mysql.createPool({
     host: "localhost",
@@ -11,7 +13,12 @@ const db = mysql.createPool({
     database: "labcourse"
 });
 
-app.use(cors());
+app.use(cookieParser());
+app.use(cors({
+    origin:["http://localhost:3000"],
+    methods:["POST,GET"],
+    credentials:true
+}));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -346,6 +353,54 @@ app.get("/api/reservations", (req, res) => {
       res.sendStatus(200);
     });
   });
+
+const verifyUser=(req,res,next)=>{
+    const token=req.cookies.token;
+    if(!token){
+        return res.json({Message:""})
+    }else{
+        jwt.verify(token,"our-jsonwebtoken-secret-key",(err,decoded)=>{
+            if(err){
+                return res.json({Message:"Authentification error"})
+
+            }else{
+                req.name= decoded.name;
+                next();
+            }
+        })
+    }
+}
+
+app.get('/',verifyUser,(req,res)=>{
+
+    
+    
+    return res.json({Status:"Success",name: req.name})
+
+})
+
+  app.post('/login',(req,res)=>{
+
+         const sql="SELECT * FROM staff_db WHERE email = ? and password = ?";
+         db.query(sql,[req.body.email,req.body.password],(err,data)=>{
+            if(err) return res.json({Message:"Server side error"});
+            if(data.length>0){
+                const name=data[0].name;
+                const token=jwt.sign({name},"our-jsonwebtoken-secret-key",{expiresIn:'1d'});
+                res.cookie('token',token);
+                return res.json({Status:"Success"})
+
+            }else{
+                return res.json({Message:"No records exist"});
+            }
+         })
+
+  })
+
+  app.get('/logout',(req,res)=>{
+    res.clearCookie('token');
+    return res.json({Status:"Success"})
+  })
   
 
 
