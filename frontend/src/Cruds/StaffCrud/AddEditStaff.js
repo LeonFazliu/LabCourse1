@@ -11,7 +11,7 @@ const initialState = {
   password: "" // Added password field to initial state
 };
 
-const positionOptions = ["CEO", "Director", "Accountant", "Manager", "Engineer"]; 
+const positionOptions = ["CEO", "Accountant", "Manager"]; 
 
 const AddEdit = () => {
   const [state, setState] = useState(initialState);

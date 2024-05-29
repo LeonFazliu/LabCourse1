@@ -24,25 +24,16 @@ export const Homepage = () => {
     }
    })
   },[])
-  const handleLogout=()=>{
-    axios.get('http://localhost:5000/logout')
-    .then(res=>{
-      if(res.data.Status==="Success"){
-        window.location.reload();
-      }
-      else{
-        alert("error")
-      }
-    }).catch(err=>console.log(err))
-  }
+ 
 
   return (
     <div className='container mt-4'>
       {
         auth ?
         <div>
-        <h3>You are Authorized {name}</h3>
-      <button className='btn btn-danger' onClick={handleLogout}>Log out</button>
+        <h3>Welcome back, {name}</h3>
+        <h3>Enjoy your shift!</h3>
+     
 
         </div>
         :

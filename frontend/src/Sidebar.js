@@ -1,8 +1,21 @@
-import React from 'react'
+import React  from 'react'
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 
 export const Sidebar = () => {
+    const handleLogout=()=>{
+        axios.get('http://localhost:5000/logout')
+        .then(res=>{
+          if(res.data.Status==="Success"){
+            window.location.reload();
+          }
+          else{
+            alert("error")
+          }
+        }).catch(err=>console.log(err))
+      }
+    
   return (
     <div className='d-flex flex-column bg-dark text-white p-4 vh-100'>
         <h3>
@@ -41,6 +54,18 @@ export const Sidebar = () => {
                     <i className='bi me-2 fs-5'></i>
                     <span className='fs-5'>Reservations</span>
                 </Link>
+                
+            </li>
+            <li className='nav-item p-1'>
+            <Link to="/login" className='nav-link text-white'>
+            <button className='btn btn-danger' onClick={() => {
+             handleLogout();
+             }}>
+             Log out</button>
+            </Link>
+
+                
+
                 
             </li>
         </ul>
