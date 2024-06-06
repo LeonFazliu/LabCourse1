@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 import { toast } from "react-toastify";
 import "./AddEdit.css";
 
@@ -8,7 +8,7 @@ const initialState = {
   CostumerName: "",
   hotelname: "",
   checkindate: "",
-  checkoutdate: ""
+  checkoutdate: "",
 };
 
 const AddEditReservation = () => {
@@ -21,20 +21,23 @@ const AddEditReservation = () => {
 
   useEffect(() => {
     if (Reservation_id) {
-      axios.get(`http://localhost:5000/api/reservations/${Reservation_id}`)
-        .then(resp => setState({ ...resp.data[0] }))
-        .catch(error => console.error(error));
+      axios
+        .get(`http://localhost:5000/api/reservations/${Reservation_id}`)
+        .then((resp) => setState({ ...resp.data[0] }))
+        .catch((error) => console.error(error));
     }
 
     // Fetch the list of hotels
-    axios.get("http://localhost:5000/api/hotels")
-      .then(resp => setHotels(resp.data))
-      .catch(error => console.error(error));
+    axios
+      .get("http://localhost:5000/api/hotels")
+      .then((resp) => setHotels(resp.data))
+      .catch((error) => console.error(error));
 
     // Fetch the list of customers
-    axios.get("http://localhost:5000/api/customers")
-      .then(resp => setCustomers(resp.data))
-      .catch(error => console.error(error));
+    axios
+      .get("http://localhost:5000/api/customers")
+      .then((resp) => setCustomers(resp.data))
+      .catch((error) => console.error(error));
   }, [Reservation_id]);
 
   const handleSubmit = (e) => {
@@ -43,12 +46,13 @@ const AddEditReservation = () => {
       toast.error("Please fill each input field");
     } else {
       if (!Reservation_id) {
-        axios.post("http://localhost:5000/api/reservations", {
-          CostumerName,
-          hotelname,
-          checkindate,
-          checkoutdate
-        })
+        axios
+          .post("http://localhost:5000/api/reservations", {
+            CostumerName,
+            hotelname,
+            checkindate,
+            checkoutdate,
+          })
           .then(() => {
             setState(initialState);
             toast.success("Reservation Added Successfully");
@@ -56,12 +60,13 @@ const AddEditReservation = () => {
           })
           .catch((err) => toast.error(err.response.data));
       } else {
-        axios.put(`http://localhost:5000/api/reservations/${Reservation_id}`, {
-          CostumerName,
-          hotelname,
-          checkindate,
-          checkoutdate
-        })
+        axios
+          .put(`http://localhost:5000/api/reservations/${Reservation_id}`, {
+            CostumerName,
+            hotelname,
+            checkindate,
+            checkoutdate,
+          })
           .then(() => {
             toast.success("Reservation Updated Successfully");
             navigate("/reservations");
@@ -69,7 +74,7 @@ const AddEditReservation = () => {
           .catch((err) => toast.error(err.response.data));
       }
     }
-  }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -83,14 +88,14 @@ const AddEditReservation = () => {
           margin: "auto",
           padding: "15px",
           maxWidth: "400px",
-          alignContent: "center"
+          alignContent: "center",
         }}
         onSubmit={handleSubmit}
       >
-        <label htmlFor='CostumerName'>Customer Name</label>
+        <label htmlFor="CostumerName">Customer Name</label>
         <select
-          id='CostumerName'
-          name='CostumerName'
+          id="CostumerName"
+          name="CostumerName"
           value={CostumerName}
           onChange={handleInputChange}
         >
@@ -102,10 +107,10 @@ const AddEditReservation = () => {
           ))}
         </select>
 
-        <label htmlFor='hotelname'>Hotel Name</label>
+        <label htmlFor="hotelname">Hotel Name</label>
         <select
-          id='hotelname'
-          name='hotelname'
+          id="hotelname"
+          name="hotelname"
           value={hotelname}
           onChange={handleInputChange}
         >
@@ -117,29 +122,29 @@ const AddEditReservation = () => {
           ))}
         </select>
 
-        <label htmlFor='checkindate'>Check-in Date</label>
+        <label htmlFor="checkindate">Check-in Date</label>
         <input
-          type='date'
-          id='checkindate'
-          name='checkindate'
+          type="date"
+          id="checkindate"
+          name="checkindate"
           value={checkindate}
           onChange={handleInputChange}
         />
         <br></br>
         <br></br>
 
-        <label htmlFor='checkoutdate'>Check-out Date</label>
+        <label htmlFor="checkoutdate">Check-out Date</label>
         <input
-          type='date'
-          id='checkoutdate'
-          name='checkoutdate'
+          type="date"
+          id="checkoutdate"
+          name="checkoutdate"
           value={checkoutdate}
           onChange={handleInputChange}
         />
 
-        <input type='submit' value={Reservation_id ? "Update" : "Save"} />
+        <input type="submit" value={Reservation_id ? "Update" : "Save"} />
         <Link to="/reservations">
-          <input type="button" value="Go Back"/>
+          <input type="button" value="Go Back" />
         </Link>
       </form>
     </div>

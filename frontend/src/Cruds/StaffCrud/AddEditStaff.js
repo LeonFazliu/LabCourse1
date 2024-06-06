@@ -1,44 +1,47 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 import { toast } from "react-toastify";
 import "./AddEdit.css";
 
 const initialState = {
   name: "",
   email: "",
-  position: "",
-  password: "" // Added password field to initial state
+  role: "",
+  password: "", // Added password field to initial state
 };
 
-const positionOptions = ["CEO", "Accountant", "Manager"]; 
+const positionOptions = ["admin", "accountant", "manager"];
 
 const AddEdit = () => {
   const [state, setState] = useState(initialState);
-  const { name, email, position, password } = state; // Destructuring state
-  const navigate = useNavigate(); 
+  const { name, email, role, password } = state; // Destructuring state
+  const navigate = useNavigate();
   const { id } = useParams();
-  
+
   useEffect(() => {
     if (id) {
-      axios.get(`http://localhost:5000/api/get/${id}`)
-        .then(resp => setState({ ...resp.data[0] }))
-        .catch(err => console.error(err));
+      axios
+        .get(`http://localhost:5000/api/get/${id}`)
+        .then((resp) => setState({ ...resp.data[0] }))
+        .catch((err) => console.error(err));
     }
   }, [id]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name || !email || !position || !password) { // Checking if password is not empty
+    if (!name || !email || !role || !password) {
+      // Checking if password is not empty
       toast.error("Please fill each input field");
     } else {
       if (!id) {
-        axios.post("http://localhost:5000/api/post", {
-          name,
-          email,
-          position,
-          password // Including password in the request body
-        })
+        axios
+          .post("http://localhost:5000/api/post", {
+            name,
+            email,
+            role,
+            password, // Including password in the request body
+          })
           .then(() => {
             setState(initialState);
             toast.success("Staff Added Successfully");
@@ -46,12 +49,13 @@ const AddEdit = () => {
           })
           .catch((err) => toast.error(err.response.data));
       } else {
-        axios.put(`http://localhost:5000/api/update/${id}`, {
-          name,
-          email,
-          position,
-          password // Including password in the request body
-        })
+        axios
+          .put(`http://localhost:5000/api/update/${id}`, {
+            name,
+            email,
+            role,
+            password, // Including password in the request body
+          })
           .then(() => {
             setState(initialState);
             toast.success("Staff Updated Successfully");
@@ -74,52 +78,54 @@ const AddEdit = () => {
           margin: "auto",
           padding: "15px",
           maxWidth: "400px",
-          alignContent: "center"
+          alignContent: "center",
         }}
         onSubmit={handleSubmit}
       >
-        <label htmlFor='name'>Name</label>
+        <label htmlFor="name">Name</label>
         <input
-          type='text'
-          id='name'
-          name='name'
-          placeholder='Your Name....'
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Your Name...."
           value={name}
           onChange={handleInputChange}
         />
-        <label htmlFor='email'>E-Mail</label>
+        <label htmlFor="email">E-Mail</label>
         <input
-          type='email'
-          id='email'
-          name='email'
-          placeholder='Your E-mail....'
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Your E-mail...."
           value={email}
           onChange={handleInputChange}
         />
-        <label htmlFor='password'>Password</label>
+        <label htmlFor="password">Password</label>
         <input
-          type='text' // Keeping input type as text for password
-          id='password'
-          name='password'
-          placeholder='Your Password....'
+          type="text" // Keeping input type as text for password
+          id="password"
+          name="password"
+          placeholder="Your Password...."
           value={password}
           onChange={handleInputChange}
         />
-        <label htmlFor='position'>Position</label>
+        <label htmlFor="role">Position</label>
         <select
-          id='position'
-          name='position'
-          value={position}
+          id="role"
+          name="role"
+          value={role}
           onChange={handleInputChange}
         >
-          <option value=''>Select Position</option>
+          <option value="">Select Position</option>
           {positionOptions.map((option) => (
-            <option key={option} value={option}>{option}</option>
+            <option key={option} value={option}>
+              {option}
+            </option>
           ))}
         </select>
-        <input type='submit' value={id ? "Update" : "Save"} />
+        <input type="submit" value={id ? "Update" : "Save"} />
         <Link to="/staff">
-          <input type="button" value="Go Back"/>
+          <input type="button" value="Go Back" />
         </Link>
       </form>
     </div>
