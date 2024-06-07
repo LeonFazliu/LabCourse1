@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
+import { AuthContext } from "./AuthContext";
 
 export const Sidebar = () => {
   const navigate = useNavigate();
+  const { isLoggedIn, logout } = useContext(AuthContext); // Use logout from AuthContext
   const token = localStorage.getItem("token");
   let userRole = null;
 
@@ -26,7 +28,7 @@ export const Sidebar = () => {
       )
       .then((res) => {
         if (res.data.Status === "Success") {
-          localStorage.removeItem("token");
+          logout(); // Call logout function from AuthContext
           navigate("/login");
         } else {
           alert(res.data.Message);
@@ -39,7 +41,7 @@ export const Sidebar = () => {
     <div className="d-flex flex-column bg-dark text-white p-4 vh-100">
       <h3>
         <i className="bi bi-bootstrap fs-5 me-2"></i>
-        <span>CRUD's</span>
+        <span>Navigate</span>
       </h3>
       <hr className="text-secondary mt-2" />
       <ul className="nav nav-pills flex-column p-0 m-0">
@@ -93,18 +95,16 @@ export const Sidebar = () => {
         ) : (
           <></>
         )}
-        {token ? (
-          <li className="nav-item p-1">
-            <Link to="/login" className="nav-link text-white">
-              <button
-                className="btn btn-danger"
-                onClick={() => {
-                  handleLogout();
-                }}
-              >
-                Log out
-              </button>
-            </Link>
+        {isLoggedIn ? (
+          <li className="nav-item p-4">
+            <button
+              className="btn btn-danger"
+              onClick={() => {
+                handleLogout();
+              }}
+            >
+              Log out
+            </button>
           </li>
         ) : (
           <></>

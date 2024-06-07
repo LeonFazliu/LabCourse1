@@ -1,0 +1,38 @@
+/* Login.css */
+
+/* Set HTML and body to full height */
+html, body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .login-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .login-form {
+    max-width: 400px;
+    width: 100%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-label {
+    color: #333;
+  }
+  
+  .btn-primary {
+    background-color: #0062E6;
+    border-color: #0062E6;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056cc;
+    border-color: #0056cc;
+  }
+  
