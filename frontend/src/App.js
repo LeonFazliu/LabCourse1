@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import StaffCrud from "./Cruds/StaffCrud/StaffCrud";
@@ -23,8 +23,7 @@ import Login from "./Login";
 import ManagerPrivateRoute from "./util/ManagerPrivateRoute";
 import AccountantPrivateRoute from "./util/AccountantPrivateRoute";
 import AdminPrivateRoute from "./util/AdminPrivateRoute";
-import { AuthProvider, AuthContext } from "./AuthContext"; // Import AuthContext
-
+import { AuthProvider, AuthContext } from "./AuthContext";
 
 function App() {
   return (
@@ -57,13 +56,19 @@ const SidebarWithAuth = () => {
 
 const MainContent = () => {
   const { isLoggedIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/login");
+    }
+  }, [isLoggedIn, navigate]);
 
   return (
     <div className={isLoggedIn ? "col" : "col-12"}>
       <div className="p-3">
         <ToastContainer position="top-center" />
         <Routes>
-
           <Route element={<AdminPrivateRoute />}>
             <Route exact path="/staff" element={<StaffCrud />} />
             <Route path="/addstaff" element={<AddEditStaff />} />
@@ -90,7 +95,6 @@ const MainContent = () => {
               element={<ViewReservations />}
             />
           </Route>
-
           <Route element={<AccountantPrivateRoute />}>
             <Route exact path="/finances" element={<FinancesCrud />} />
             <Route path="/finances/add" element={<AddEditFinances />} />
@@ -100,7 +104,6 @@ const MainContent = () => {
             />
             <Route path="/finances/view/:salaryid" element={<ViewFinances />} />
           </Route>
-
           <Route path="/login" element={<Login />} />
         </Routes>
       </div>

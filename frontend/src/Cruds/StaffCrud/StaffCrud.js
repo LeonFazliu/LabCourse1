@@ -26,7 +26,7 @@ export const StaffCrud = () => {
 
   return (
     <div style={{ marginTop: "150px" }}>
-      <div className="addbutton" style={{ marginLeft: "40.3rem" }}>
+      <div className="addbutton" style={{ marginLeft: "40.1rem" }}>
         <Link to="/addstaff">
           <button className="btn btn-contact">Add Staff</button>
         </Link>

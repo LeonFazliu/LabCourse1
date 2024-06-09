@@ -1,7 +1,8 @@
 import axios from "axios";
-import React, { useState, useContext,useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
+import {jwtDecode} from "jwt-decode";
 import "./Login.css"; // Import the CSS file for additional styles
 
 export const Login = () => {
@@ -10,17 +11,31 @@ export const Login = () => {
     password: "",
   });
   const [error, setError] = useState(""); // State to manage error message
-  
 
   axios.defaults.withCredentials = true;
 
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
   const { isLoggedIn } = useContext(AuthContext);
+  
   useEffect(() => {
-    // Redirect to home if already logged in
+    // Redirect based on role if already logged in
     if (isLoggedIn) {
-      navigate("/");
+      const token = localStorage.getItem("token");
+      if (token) {
+        const decodedToken = jwtDecode(token);
+        const role = decodedToken.role;
+
+        if (role === "admin") {
+          navigate("/staff");
+        } else if (role === "manager") {
+          navigate("/hotels");
+        } else if (role === "accountant") {
+          navigate("/finances");
+        } else {
+          navigate("/");
+        }
+      }
     }
   }, [isLoggedIn, navigate]);
 
@@ -30,8 +45,20 @@ export const Login = () => {
       .post("http://localhost:5000/login", values)
       .then((res) => {
         if (res.data.Status === "Success") {
-          login(res.data.Token);
-          navigate("/staff");
+          const token = res.data.Token;
+          login(token);
+          const decodedToken = jwtDecode(token);
+          const role = decodedToken.role;
+
+          if (role === "admin") {
+            navigate("/staff");
+          } else if (role === "manager") {
+            navigate("/hotels");
+          } else if (role === "accountant") {
+            navigate("/finances");
+          } else {
+            navigate("/");
+          }
         } else {
           setError(res.data.Message); // Set error message
         }
